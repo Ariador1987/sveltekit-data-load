@@ -1,0 +1,45 @@
+<script lang="ts">
+    let count = 0;
+</script>
+
+
+# This is a demo firstly for showing how **load.ts** (universal load functions work) along with preloading data. Namely how **invalidation** works using either an API route (URL invalidation) or a custom **depends** invalidator.
+
+page.ts modules are well commented and you can read more there, also I suggest you bring up DevTools to see <code class="text-mono">console.logs</code> immediately.
+For testing click the buttons on the **bottom** of the products page, if you're opposed to load functions usage heres a **Svelte Society** video showcasing **RxJs Stores** that would solve our problems and introduce new ones, but that's a topic for itself.
+It's important to add that load functions when invalidated will invalidate all their dependancies automatically, read up on it in SvelteKit docs.
+https://www.youtube.com/watch?v=Rz8Ah1y2hJM
+
+## Beside that we're showcasing both <span class="text-red-600">Svelte</span> + <span class="text-blue-600">Markdown</span> components here and how we can combine them using the counter. I do believe this may bring us value.
+## We're achiving this using additional preprocess **svelte.config.js** options.
+
+<button on:click={() => (count++)} class="btn btn-accent">Increase Count</button>
+
+{count}
+
+## Press and hold <kbd class="font-mono text-lg font-semibold">CTRL</kbd> + <kbd class="font-mono text-lg font-semibold">ALT</kbd> to activate Vite Inspector then left click an element to jump to any part of code if VSCode is running.
+
+### Simple action demo
+```ts
+    // Definition
+export function formatCurrency(node: HTMLElement) {
+    const formatCurrency = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+    });
+
+    if (
+        node.textContent &&
+        Number.isFinite(Number.parseInt(node.textContent))
+    ) {
+        node.textContent = formatCurrency.format(+node.textContent);
+    }
+}
+```
+```html
+    <!-- Usage -->
+    <small
+        class="badge badge-primary py-2 text-base font-semibold"
+        use:formatCurrency>{price}
+    </small>
+```
